@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" />
+
+    <title>Transportes y Mudanzas Luis</title>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1EqH0R4gvTINdpUmB87a2AyZoMaBYBJU&libraries=places&callback=initAutocomplete" async defer></script>
+    
+    <script>
+      // This example displays an address form, using the autocomplete feature
+      // of the Google Places API to help users fill in the information.
+
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      var desde, hasta;
+      var hoy = new Date();
+      hoy.setDate(hoy.getDate() + 1);
+      
+      function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        desde = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */ (document.getElementById('desde')),
+          //(document.getElementByClassName('address'))
+            {types: ['geocode']});
+        hasta = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */ (document.getElementById('hasta')),
+          //(document.getElementByClassName('address'))
+            {types: ['geocode']});
+
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+        //autocomplete.addListener('place_changed', fillInAddress);
+      }
+      
+      function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy
+            });
+            //autocomplete.setBounds(circle.getBounds());
+            desde.setBounds(circle.getBounds());
+            hasta.setBounds(circle.getBounds());
+          });
+        }
+      }
+      
+      $(function(){
+        $("#desde, #hasta").one('focus', function(){
+          geolocate();
+          $("#desde, #hasta").unbind('focus');
+        });
+        $('#fecha').datepicker({
+          autoHide: true,
+          startDate: hoy,
+          format: 'dd/mm/yyyy'
+        });
+      })
+      
+    </script>
+  </head>
+  <body>
+    
+    
+    <div class="container-fluid">
+      
+      <div class="row">
+        <div class="col">
+          <h1 style="text-align: center" class="display-4 bg-primary text-white">Transportes y Mudanzas Luis</h1>
+        </div>
+      </div>
+    
+    <!--
+     <div class="row justify-content-center">
+      <div class="col-11">
+        <p>
+          Deje todo en nuestras manos y sus objetos estarán en el destino antes de que se dé cuenta 
+        </p>
+        <p>Relájese mientras nos encargamos de todo</p>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col">
+        Profesional
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col">
+        Experiencia
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col">
+        Personal capacitado
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col">
+        Rápido
+      </div>
+    </div>
+      -->
+    <div class="row justify-content-center">
+      <div class="col-11">
+        <form>
+          <fieldset>
+            <legend>Cotiza sin compromiso</legend>
+            <div class="row">
+              <div class="col">
+                <input type="text" id="fecha" placeholder="Cuando" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <input type="text" id="desde" class="address" placeholder="Desde" />
+              </div>
+              <div class="col">
+                <input type="text" id="hasta" class="address" placeholder="Hasta" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-11">
+                <textarea style="width: 100%" id="comentarios" placeholder="Escriba aqui sus comentarios"></textarea>
+              </div>
+            </div>
+            <div class"row justify-content-center">
+              <div class="col">
+                <input type="submit" />
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+    
+  </body>
+</html>
